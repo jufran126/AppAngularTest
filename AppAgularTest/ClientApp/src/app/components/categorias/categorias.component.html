@@ -1,0 +1,10 @@
+<label>Categoria: </label>
+&nbsp;
+<select #categoria>
+  <option value="">--selecione--</option>
+  <option *ngFor="let categoria of categorias" [value]="categoria.idCategoria">{{categoria.nombre}}</option>
+</select>
+&nbsp;
+<input type="button" (click)="filtrar(categoria)" value="Buscar" class="btn btn-primary" />
+&nbsp;
+<input type="button" (click)="limpiar(categoria)" value="Limpiar" class="btn btn-danger" />

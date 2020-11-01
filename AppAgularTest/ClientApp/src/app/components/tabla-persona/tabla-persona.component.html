@@ -1,0 +1,23 @@
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th *ngFor="let cabecera of cabeceras">{{cabecera}}</th>
+      <th *ngIf="isEdit">Operaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let persona of personas">
+      <td>{{persona.idPersona}}</td>
+      <td>{{persona.nombreCompleto}}</td>
+      <td>{{persona.telefono}}</td>
+      <td>{{persona.correo}}</td>
+      <td>{{persona.fechaNacimiento}}</td>
+      <td *ngIf="isEdit"> 
+        <i [routerLink]="['/editpersonas',persona.idPersona]" class="fa fa-edit btn btn-primary"></i>
+        &nbsp;
+        <i class="fa fa-trash btn btn-danger"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>

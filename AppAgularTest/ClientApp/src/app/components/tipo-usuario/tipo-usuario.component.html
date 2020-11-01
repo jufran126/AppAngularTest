@@ -1,0 +1,6 @@
+<label>Seleccione un usuario: </label>
+&nbsp;
+<select #tipoU (change)="cambio(tipoU)">
+  <option value="">-seleccione-</option>
+  <option [value]="usuario.idTipoUsuario" *ngFor="let usuario of tUsuarios">{{usuario.nombre}}</option>
+</select>
