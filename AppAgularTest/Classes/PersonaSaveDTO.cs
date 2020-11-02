@@ -15,6 +15,7 @@ namespace AppAgularTest.Classes
         public DateTime fechaNacimiento { get; set; }
         public int telefono { get; set; }
         public string correo { get; set; }
+        public string fechaCadena { get; set; }
      
     }
 }

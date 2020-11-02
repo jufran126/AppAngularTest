@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { PersonaService } from '../../services/persona.service';
 
 @Component({
@@ -10,11 +11,20 @@ export class TablaPersonaComponent implements OnInit {
 
   @Input() personas: any;
   @Input() isEdit: false;
-  cabeceras: string[] = ["Id persona", "Nombre", "Telefono", "Correo","Fecha Nacimiento"];
-  constructor(private persanaService: PersonaService) { }
+  cabeceras: string[] = ["Id persona", "Nombre", "Telefono", "Correo", "Fecha Nacimiento"];
+  constructor(private persanaService: PersonaService, private router: Router) { }
 
   ngOnInit() {
     this.persanaService.getPersona().subscribe(data => this.personas = data);
   }
 
+  public eliminarPrsona(id) {
+    if (confirm("¿Desea elimar la persona?") == true)
+      this.persanaService.eliminar(id).subscribe(data => {
+        if (data == 0)
+          alert("Error, no se pudo eliminar la persona");
+        else
+          window.location.reload();
+      })
+  }
 }

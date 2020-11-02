@@ -33,16 +33,17 @@ export class FormPersonaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.personaService.recuperarPersona(this.parametro).subscribe(data => {
-      alert("Listo")
-      //this.persona.controls["idPersona"].setValue(data.idPersona);
-      //this.persona.controls["nombre"].setValue(data.nombre);
-      //this.persona.controls["primerApellido"].setValue(data.primerApellido);
-      //this.persona.controls["segundoApellido"].setValue(data.segundoApellido);
-      //this.persona.controls["fechaNacimiento"].setValue(data.fechaNacimiento);
-      //this.persona.controls["telefono"].setValue(data.telefono);
-      //this.persona.controls["correo"].setValue(data.correo);
-    });
+    if (this.parametro != "nuevo") {
+      this.personaService.recuperarPersona(this.parametro).subscribe((data: any) => {
+        this.persona.controls["idPersona"].setValue(data.idPersona);
+        this.persona.controls["nombre"].setValue(data.nombre);
+        this.persona.controls["primerApellido"].setValue(data.primerApellido);
+        this.persona.controls["segundoApellido"].setValue(data.segundoApellido);
+        this.persona.controls["fechaNacimiento"].setValue(data.fechaCadena);
+        this.persona.controls["telefono"].setValue(data.telefono);
+        this.persona.controls["correo"].setValue(data.correo);
+      });
+    }
   }
 
   public guardarDatos() {

@@ -20,24 +20,24 @@ namespace AppAgularTest.Controllers
         public IEnumerable<PersonaDTO> getPersona()
         {
             List<PersonaDTO> personas;
-            using(BDRestauranteContext db= new BDRestauranteContext())
+            using (BDRestauranteContext db = new BDRestauranteContext())
             {
                 personas = (from persona in db.Persona
                             where persona.Bhabilitado == 1
                             select new PersonaDTO
                             {
-                                idPersona=persona.Iidpersona,
-                                bHabilitadon=(int)persona.Bhabilitado,
-                                correo=persona.Correo,
-                                telefono=persona.Telefono,
-                                fechaNacimiento=(DateTime)persona.Fechanacimiento,
-                                nombreCompleto=persona.Nombre+" "+persona.Appaterno+" "+persona.Apmaterno
+                                idPersona = persona.Iidpersona,
+                                bHabilitadon = (int)persona.Bhabilitado,
+                                correo = persona.Correo,
+                                telefono = persona.Telefono,
+                                fechaNacimiento = (DateTime)persona.Fechanacimiento,
+                                nombreCompleto = persona.Nombre + " " + persona.Appaterno + " " + persona.Apmaterno
                             }).ToList();
             }
             return personas;
         }
         [HttpGet("filtrarPersona/{nombre?}")]
-        public IEnumerable<PersonaDTO> filtrarPersona(string nombre="")
+        public IEnumerable<PersonaDTO> filtrarPersona(string nombre = "")
         {
             List<PersonaDTO> personas;
             if (string.IsNullOrEmpty(nombre))
@@ -59,7 +59,7 @@ namespace AppAgularTest.Controllers
                 using (BDRestauranteContext db = new BDRestauranteContext())
                 {
                     personas = (from persona in db.Persona
-                                where persona.Bhabilitado == 1 && 
+                                where persona.Bhabilitado == 1 &&
                                 (persona.Nombre + " " + persona.Appaterno + " " + persona.Apmaterno).ToLower().Contains(
                                     nombre.ToLower())
                                 select new PersonaDTO
@@ -82,25 +82,41 @@ namespace AppAgularTest.Controllers
             int respuesta = 0;
             try
             {
-                using(BDRestauranteContext db=new BDRestauranteContext())
+                using (BDRestauranteContext db = new BDRestauranteContext())
                 {
-                    Persona persona = new Persona
+                    if (personaDTO.idPersona == 0)
                     {
-                        Nombre = personaDTO.nombre.ToUpper(),
-                        Apmaterno = personaDTO.segundoApellido.ToUpper(),
-                        Appaterno = personaDTO.primerApellido.ToUpper(),
-                        Correo = personaDTO.correo,
-                        Telefono = Convert.ToString(personaDTO.telefono),
-                        Fechanacimiento = personaDTO.fechaNacimiento,
-                        Bhabilitado = 1,
-                        Btieneusuario = 0
-                    };
-                    db.Persona.Add(persona);
-                    db.SaveChanges();
-                    respuesta = 1;
+                        Persona persona = new Persona
+                        {
+                            Nombre = personaDTO.nombre.ToUpper(),
+                            Apmaterno = personaDTO.segundoApellido.ToUpper(),
+                            Appaterno = personaDTO.primerApellido.ToUpper(),
+                            Correo = personaDTO.correo,
+                            Telefono = Convert.ToString(personaDTO.telefono),
+                            Fechanacimiento = personaDTO.fechaNacimiento,
+                            Bhabilitado = 1,
+                            Btieneusuario = 0
+                        };
+                        db.Persona.Add(persona);
+                        db.SaveChanges();
+                        respuesta = 1;
+                    }
+                    else
+                    {
+                        Persona persona = db.Persona.Where(d=>d.Iidpersona==personaDTO.idPersona).First();
+                        persona.Nombre = personaDTO.nombre.ToUpper();
+                        persona.Apmaterno = personaDTO.segundoApellido.ToUpper();
+                        persona.Appaterno = personaDTO.primerApellido.ToUpper();
+                        persona.Correo = personaDTO.correo;
+                        persona.Telefono =  Convert.ToString(personaDTO.telefono);
+                        persona.Fechanacimiento = personaDTO.fechaNacimiento;
+                        db.SaveChanges();
+                        respuesta = 1;
+                    }
                 }
+                  
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 respuesta = 0;
             }
@@ -115,15 +131,35 @@ namespace AppAgularTest.Controllers
                            where person.Iidpersona == id
                            select new PersonaSaveDTO
                            {
-                               idPersona=person.Iidpersona,
+                               idPersona = person.Iidpersona,
                                nombre = person.Nombre,
                                primerApellido = person.Appaterno,
                                segundoApellido = person.Apmaterno,
-                               fechaNacimiento = (DateTime)person.Fechanacimiento,
+                               fechaCadena = ((DateTime)person.Fechanacimiento).ToString("yyyy-MM-dd"),
                                correo = person.Correo,
-                               telefono=Convert.ToInt32(person.Telefono)
+                               telefono = Convert.ToInt32(person.Telefono)
                            }).First();
             return persona;
+        }
+        [HttpGet("eliminarPersona/{id}")]
+        public int eliminarPersona(int id)
+        {
+            int respuesta = 0;
+            try
+            {
+                using(BDRestauranteContext db=new BDRestauranteContext())
+                {
+                    Persona persona = db.Persona.Where(d => d.Iidpersona == id).First();
+                    persona.Bhabilitado = 0;
+                    db.SaveChanges();
+                    respuesta = 1;
+                }
+            }
+            catch(Exception ex)
+            {
+                respuesta = 0;
+            }
+            return respuesta;
         }
     }
 }

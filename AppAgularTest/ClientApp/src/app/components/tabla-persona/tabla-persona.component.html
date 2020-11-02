@@ -16,7 +16,7 @@
       <td *ngIf="isEdit"> 
         <i [routerLink]="['/editpersonas',persona.idPersona]" class="fa fa-edit btn btn-primary"></i>
         &nbsp;
-        <i class="fa fa-trash btn btn-danger"></i>
+        <i class="fa fa-trash btn btn-danger" (click)="eliminarPrsona(persona.idPersona)"></i>
       </td>
     </tr>
   </tbody>

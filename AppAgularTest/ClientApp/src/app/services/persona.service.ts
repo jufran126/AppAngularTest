@@ -23,4 +23,7 @@ export class PersonaService {
   public recuperarPersona(id) {
     return this.http.get(this.baseUrl + "api/Persona/recuperarPersona/"+id);
   }
+  public eliminar(id) {
+    return this.http.get(this.baseUrl + "api/Persona/eliminarPersona/" + id)
+  }
 }
