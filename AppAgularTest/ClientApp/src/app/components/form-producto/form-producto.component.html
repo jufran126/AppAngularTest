@@ -1,0 +1,71 @@
+<h1 *ngIf="titulo">{{titulo}}</h1>
+<div class="row">
+  <div class="col-md-12">
+  <form [formGroup]="producto" (ngSubmit)="guardarDatos()">
+    <div>
+      <label>Id Producto</label>
+      <input type="number" class="form-control" readonly formControlName="idProducto" />
+    </div>
+    <div>
+      <label>Nombre</label>
+      <input type="text" class="form-control" formControlName="nombre" />
+      <div *ngIf="producto.controls['nombre'].errors?.required" style="color:red">
+        El nombre del producto es obligatorio
+      </div>
+      <div *ngIf="producto.controls['nombre'].errors?.maxlength" style="color:red">
+        Supero la logitud maxima
+      </div>
+    </div>
+    <div>
+      <label>Categoria</label><br />
+      <select formControlName="categoria" class="form-control">
+        <option value="">--seleccione--</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria.idCategoria">{{categoria.nombre}}</option>
+      </select>
+      <div *ngIf="producto.controls['categoria'].errors?.required" style="color:red">
+        La categoria del producto es obligatoria
+      </div>
+    </div>
+    <div>
+      <label>Precio</label>
+      <input type="number" min="0" class="form-control" formControlName="precio" />
+      <div *ngIf="producto.controls['precio'].errors?.required" style="color:red">
+        El precio del producto es obligatorio
+      </div>
+    </div>
+    <div>
+      <label>Marca</label><br />
+      <select formControlName="marca" class="form-control">
+        <option value="">--seleccione--</option>
+        <option *ngFor="let marca of marcas" [value]="marca.idMarca">{{marca.nombre}}</option>
+      </select>
+      <div *ngIf="producto.controls['marca'].errors?.required" style="color:red">
+        La marca del producto es obligatoria
+      </div>
+    </div>
+    <div>
+      <label>Stock</label>
+      <input type="number" min="0" class="form-control" formControlName="stock" />
+      <div *ngIf="producto.controls['stock'].errors?.required" style="color:red">
+        El stock del producto es obligatorio
+      </div>
+      <div *ngIf="producto.controls['stock'].errors?.puntoDecimal" style="color:red">
+        Esta prohibido el punto decimal
+      </div>
+    </div>
+    <br />
+    <div>
+      <br />
+      <input [disabled]="!producto.valid" type="submit" value="Guardar" class="btn btn-primary" />
+      &nbsp;
+      <button class="btn btn-danger" [routerLink]="['/editproductos']">Regresar</button>
+    </div>
+  </form>
+  <div *ngIf="!producto.valid">
+    <br />
+    <div class="alert alert-danger">
+      El formulario no es valido
+    </div>
+  </div>
+  </div>
+</div>

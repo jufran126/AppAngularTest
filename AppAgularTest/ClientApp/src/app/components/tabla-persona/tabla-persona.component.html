@@ -7,13 +7,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let persona of personas">
+    <tr *ngFor="let persona of personas | paginate: { itemsPerPage: 4, currentPage: p }">
       <td>{{persona.idPersona}}</td>
       <td>{{persona.nombreCompleto}}</td>
       <td>{{persona.telefono}}</td>
       <td>{{persona.correo}}</td>
       <td>{{persona.fechaNacimiento}}</td>
-      <td *ngIf="isEdit"> 
+      <td *ngIf="isEdit">
         <i [routerLink]="['/editpersonas',persona.idPersona]" class="fa fa-edit btn btn-primary"></i>
         &nbsp;
         <i class="fa fa-trash btn btn-danger" (click)="eliminarPrsona(persona.idPersona)"></i>
@@ -21,3 +21,4 @@
     </tr>
   </tbody>
 </table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

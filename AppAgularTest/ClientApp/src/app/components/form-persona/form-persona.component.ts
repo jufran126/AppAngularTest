@@ -20,8 +20,8 @@ export class FormPersonaComponent implements OnInit {
       "primerApellido": new FormControl("", [Validators.required, Validators.maxLength(150)]),
       "segundoApellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
       "fechaNacimiento": new FormControl("", [Validators.required]),
-      "telefono": new FormControl(0, [Validators.required, Validators.maxLength(10)]),
-      "correo": new FormControl("", [Validators.required, Validators.maxLength(150), Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$")]),
+      "telefono": new FormControl(0, [Validators.required, Validators.maxLength(100)]),
+      "correo": new FormControl("", [Validators.required, Validators.maxLength(150), Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$"), this.correoRepetido.bind(this)]),
     });
     this.activatedRoute.params.subscribe(par => {
       this.parametro = par["id"];
@@ -54,5 +54,18 @@ export class FormPersonaComponent implements OnInit {
         else
           this.router.navigate(['/editpersonas']);
       });
+  }
+  public correoRepetido(control: FormControl) {
+    var promesa = new Promise((resolve, reject) => {
+      if (control.value != null && control.value != "")
+        this.personaService.validarCoreo(this.persona.controls["idPersona"].value, control.value)
+          .subscribe(data => {
+            if (data == 1)
+              resolve({ yaExiste: true });
+            else
+              resolve(null);
+          })
+    });
+    return promesa;
   }
 }

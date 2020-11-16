@@ -11,6 +11,7 @@ export class TablaPersonaComponent implements OnInit {
 
   @Input() personas: any;
   @Input() isEdit: false;
+  p: number = 1;
   cabeceras: string[] = ["Id persona", "Nombre", "Telefono", "Correo", "Fecha Nacimiento"];
   constructor(private persanaService: PersonaService, private router: Router) { }
 

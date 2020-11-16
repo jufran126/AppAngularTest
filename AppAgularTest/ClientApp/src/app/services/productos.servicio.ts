@@ -18,4 +18,13 @@ export class ProductosService {
   public getProductoCategoria(idCategoria) {
     return this.http.get(this.baseUrl + "api/Producto/listProductosCategoria/" + idCategoria);
   }
+  public recuperarProducto(id) {
+    return this.http.get(this.baseUrl + "api/Producto/recuperarProducto/" + id);
+  }
+  public guardar(producto) {
+    return this.http.post(this.baseUrl + "api/Producto/guardarProducto", producto);
+  }
+  public eliminar(id) {
+    return this.http.get(this.baseUrl + "api/Producto/eliminarProducto/" + id);
+  }
 }

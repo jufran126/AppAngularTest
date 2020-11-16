@@ -31,5 +31,20 @@ namespace AppAgularTest.Controllers
             }
             return categorias;
         }
+        [HttpGet("getMarca")]
+        public IEnumerable<MarcaDTO> getMarca()
+        {
+            List<MarcaDTO> marcas;
+            using (BDRestauranteContext db=new BDRestauranteContext())
+            {
+                marcas = (from marca in db.Marca
+                          where marca.Bhabilitado==1
+                          select new MarcaDTO { 
+                            idMarca=marca.Iidmarca,
+                            nombre=marca.Nombre
+                          }).ToList();
+            }
+            return marcas;
+        }
     }
 }

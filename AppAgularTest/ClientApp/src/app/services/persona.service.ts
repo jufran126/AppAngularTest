@@ -24,6 +24,9 @@ export class PersonaService {
     return this.http.get(this.baseUrl + "api/Persona/recuperarPersona/"+id);
   }
   public eliminar(id) {
-    return this.http.get(this.baseUrl + "api/Persona/eliminarPersona/" + id)
+    return this.http.get(this.baseUrl + "api/Persona/eliminarPersona/" + id);
+  }
+  public validarCoreo(id, correo) {
+    return this.http.get(this.baseUrl + "api/Persona/validarCorreo/" + id + "/" + correo);
   }
 }

@@ -161,5 +161,29 @@ namespace AppAgularTest.Controllers
             }
             return respuesta;
         }
+        [HttpGet("validarCorreo/{id}/{correo}")]
+        public int validarCorreo(int id, string correo)
+        {
+            int resp = 0;
+            try
+            {
+                using(BDRestauranteContext db=new BDRestauranteContext())
+                {
+                    if (id == 0)
+                    {
+                        resp = db.Persona.Where(d => d.Correo.ToLower() == correo.ToLower()).Count();
+                    }
+                    else
+                    {
+                        resp = db.Persona.Where(d => d.Correo.ToLower() == correo.ToLower() && d.Iidpersona != id).Count();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                resp = 0;
+            }
+            return resp;
+        }
     }
 }

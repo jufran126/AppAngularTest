@@ -15,4 +15,7 @@ export class CategoriaService {
   public getCategorias() {
     return this.http.get(this.baseUrl + "api/Categoria/getCategorias");
   }
+  public getMarca() {
+    return this.http.get(this.baseUrl + "api/Categoria/getMarca");
+  }
 }
