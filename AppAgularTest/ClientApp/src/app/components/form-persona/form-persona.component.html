@@ -40,8 +40,8 @@
         <label>Fecha de nacimiento</label>
         <input type="date" class="form-control" formControlName="fechaNacimiento" />
         <!--<div *ngIf="producto.controls['fechaNacimiento'].errors?.required" style="color:red">
-          La fecha de nacimiento de la persona es obligatorio
-        </div>-->
+      La fecha de nacimiento de la persona es obligatorio
+    </div>-->
       </div>
       <div>
         <label>Telefono</label>
@@ -66,9 +66,10 @@
           El correo no es valido
         </div>
         <div *ngIf="persona.controls['correo'].errors?.yaExiste" style="color:red">
-          El correo ya en la base de datos
+          El correo ya existe en la base de datos
         </div>
       </div>
+
       <div>
         <br />
         <input [disabled]="!persona.valid" type="submit" value="Guardar" class="btn btn-primary" />

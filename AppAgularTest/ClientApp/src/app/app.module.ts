@@ -30,6 +30,8 @@ import { MantPersonaComponent } from './components/mant-persona/mant-persona.com
 import { FormPersonaComponent } from './components/form-persona/form-persona.component';
 import { MantProductoComponent } from './components/mant-producto/mant-producto.component';
 import { FormProductoComponent } from './components/form-producto/form-producto.component';
+import { MantUserComponent } from './components/mant-user/mant-user.component';
+import { FormUserComponent } from './components/form-user/form-user.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { FormProductoComponent } from './components/form-producto/form-producto.
     MantPersonaComponent,
     FormPersonaComponent,
     MantProductoComponent,
-    FormProductoComponent
+    FormProductoComponent,
+    MantUserComponent,
+    FormUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -71,6 +75,8 @@ import { FormProductoComponent } from './components/form-producto/form-producto.
       { path: 'editpersonas', component: MantPersonaComponent },
       { path: 'editpersonas/:id', component: FormPersonaComponent },
       { path: 'usuarios', component: BuscarUsuarioComponent },
+      { path: 'edituser', component: MantUserComponent },
+      { path: 'edituser/:id', component: FormUserComponent },
     ])
   ],
   providers: [ProductosService, CategoriaService, PersonaService, UsuarioService],

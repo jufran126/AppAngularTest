@@ -19,7 +19,7 @@ export class TablaPersonaComponent implements OnInit {
     this.persanaService.getPersona().subscribe(data => this.personas = data);
   }
 
-  public eliminarPrsona(id) {
+  public eliminarPersona(id) {
     if (confirm("¿Desea elimar la persona?") == true)
       this.persanaService.eliminar(id).subscribe(data => {
         if (data == 0)

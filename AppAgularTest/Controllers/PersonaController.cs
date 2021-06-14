@@ -103,18 +103,18 @@ namespace AppAgularTest.Controllers
                     }
                     else
                     {
-                        Persona persona = db.Persona.Where(d=>d.Iidpersona==personaDTO.idPersona).First();
+                        Persona persona = db.Persona.Where(d => d.Iidpersona == personaDTO.idPersona).First();
                         persona.Nombre = personaDTO.nombre.ToUpper();
                         persona.Apmaterno = personaDTO.segundoApellido.ToUpper();
                         persona.Appaterno = personaDTO.primerApellido.ToUpper();
                         persona.Correo = personaDTO.correo;
-                        persona.Telefono =  Convert.ToString(personaDTO.telefono);
+                        persona.Telefono = Convert.ToString(personaDTO.telefono);
                         persona.Fechanacimiento = personaDTO.fechaNacimiento;
                         db.SaveChanges();
                         respuesta = 1;
                     }
                 }
-                  
+
             }
             catch (Exception ex)
             {
@@ -147,7 +147,7 @@ namespace AppAgularTest.Controllers
             int respuesta = 0;
             try
             {
-                using(BDRestauranteContext db=new BDRestauranteContext())
+                using (BDRestauranteContext db = new BDRestauranteContext())
                 {
                     Persona persona = db.Persona.Where(d => d.Iidpersona == id).First();
                     persona.Bhabilitado = 0;
@@ -155,7 +155,7 @@ namespace AppAgularTest.Controllers
                     respuesta = 1;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 respuesta = 0;
             }
@@ -167,7 +167,7 @@ namespace AppAgularTest.Controllers
             int resp = 0;
             try
             {
-                using(BDRestauranteContext db=new BDRestauranteContext())
+                using (BDRestauranteContext db = new BDRestauranteContext())
                 {
                     if (id == 0)
                     {
@@ -184,6 +184,29 @@ namespace AppAgularTest.Controllers
                 resp = 0;
             }
             return resp;
+        }
+        [HttpGet("listarPersonasCombo")]
+        public IEnumerable<PersonaDTO> listarPersonasCombo()
+        {
+            List<PersonaDTO> personas; 
+            try
+            {
+                using (BDRestauranteContext db = new BDRestauranteContext())
+                {
+                    personas = (from persona in db.Persona
+                                where persona.Bhabilitado == 1 && persona.Btieneusuario == 0
+                                select new PersonaDTO
+                                {
+                                    nombreCompleto = persona.Nombre + " " + persona.Appaterno + " " + persona.Apmaterno,
+                                    idPersona = persona.Iidpersona
+                                }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return personas;
         }
     }
 }

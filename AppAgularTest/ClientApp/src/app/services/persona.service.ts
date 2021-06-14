@@ -29,4 +29,7 @@ export class PersonaService {
   public validarCoreo(id, correo) {
     return this.http.get(this.baseUrl + "api/Persona/validarCorreo/" + id + "/" + correo);
   }
+  public listarPersonasCombo() {
+    return this.http.get(this.baseUrl + "api/Persona/listarPersonasCombo");
+  }
 }

@@ -18,4 +18,16 @@ export class UsuarioService {
   public filtrarUsuario(tipoU) {
     return this.http.get(this.baseUrl + "api/Usuario/filtrarUsuarios/" + tipoU);
   }
+  public validarUsuario(idUsuario, nombre) {
+    return this.http.get(this.baseUrl + "api/Usuario/validarUsuario/" + idUsuario + "/" + nombre);
+  }
+  public recuperarUsuario(idUsuario) {
+    return this.http.get(this.baseUrl + "api/Usuario/recuperarUsuario/" + idUsuario );
+  }
+  public guardarDatos(usuario) {
+    return this.http.post(this.baseUrl + "api/Usuario/guardarDatos", usuario);
+  }
+  public eliminarUsuario(idUsuario) {
+    return this.http.get(this.baseUrl + "api/Usuario/eliminarUsuario/" + idUsuario);
+  }
 }

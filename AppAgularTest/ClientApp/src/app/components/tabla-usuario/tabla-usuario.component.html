@@ -2,6 +2,7 @@
   <thead class="thead-dark">
     <tr>
       <th *ngFor="let cabecera of cabeceras">{{cabecera}}</th>
+      <th *ngIf="isEdit">Operaciones</th>
     </tr>
   </thead>
   <tbody>
@@ -10,6 +11,11 @@
       <td>{{usuario.nombrePersona}}</td>
       <td>{{usuario.nombreUsuario}}</td>
       <td>{{usuario.nombreTiposUsuario}}</td>
+      <td *ngIf="isEdit">
+        <i [routerLink]="['/edituser',usuario.idUsuario]" class="fa fa-edit btn btn-primary"></i>
+        &nbsp;
+        <i class="fa fa-trash btn btn-danger" (click)="eliminarUser(usuario.idUsuario)"></i>
+      </td>
     </tr>
   </tbody>
 </table>

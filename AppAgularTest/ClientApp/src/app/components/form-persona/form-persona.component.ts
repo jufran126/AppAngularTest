@@ -21,7 +21,7 @@ export class FormPersonaComponent implements OnInit {
       "segundoApellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
       "fechaNacimiento": new FormControl("", [Validators.required]),
       "telefono": new FormControl(0, [Validators.required, Validators.maxLength(100)]),
-      "correo": new FormControl("", [Validators.required, Validators.maxLength(150), Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$"), this.correoRepetido.bind(this)]),
+      "correo": new FormControl("", [Validators.required, Validators.maxLength(150), Validators.pattern("^[^@]+@[^@]+\.[a-zA-Z]{2,}$")], this.correoRepetido.bind(this)),
     });
     this.activatedRoute.params.subscribe(par => {
       this.parametro = par["id"];
