@@ -32,6 +32,12 @@ import { MantProductoComponent } from './components/mant-producto/mant-producto.
 import { FormProductoComponent } from './components/form-producto/form-producto.component';
 import { MantUserComponent } from './components/mant-user/mant-user.component';
 import { FormUserComponent } from './components/form-user/form-user.component';
+import { LoginComponent } from './components/login/login.component';
+import { ErrorLoginComponent } from './components/error-login/error-login.component';
+import { ErrorPermisoLoginComponent } from './components/error-permiso-login/error-permiso-login.component';
+
+//guards
+import { SeguridadGuard } from './guards/seguridad.guard';
 
 @NgModule({
   declarations: [
@@ -56,7 +62,10 @@ import { FormUserComponent } from './components/form-user/form-user.component';
     MantProductoComponent,
     FormProductoComponent,
     MantUserComponent,
-    FormUserComponent
+    FormUserComponent,
+    LoginComponent,
+    ErrorLoginComponent,
+    ErrorPermisoLoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -65,21 +74,25 @@ import { FormUserComponent } from './components/form-user/form-user.component';
     ReactiveFormsModule,
     NgxPaginationModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'productosCategoria', component: BuscarPCategoriaComponent },
-      { path: 'productos', component: BuscarProductoComponent },
-      { path: 'editproductos', component: MantProductoComponent },
-      { path: 'editproductos/:id', component: FormProductoComponent },
-      { path: 'personas', component: FiltradoPersonaComponent },
-      { path: 'editpersonas', component: MantPersonaComponent },
-      { path: 'editpersonas/:id', component: FormPersonaComponent },
-      { path: 'usuarios', component: BuscarUsuarioComponent },
-      { path: 'edituser', component: MantUserComponent },
-      { path: 'edituser/:id', component: FormUserComponent },
+      //{ path: '', component: HomeComponent, pathMatch: 'full', canActivate: [SeguridadGuard] },
+      { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [SeguridadGuard] },
+      { path: 'counter', component: CounterComponent, canActivate: [SeguridadGuard] },
+      { path: 'productosCategoria', component: BuscarPCategoriaComponent, canActivate: [SeguridadGuard] },
+      { path: 'productos', component: BuscarProductoComponent, canActivate: [SeguridadGuard] },
+      { path: 'editproductos', component: MantProductoComponent, canActivate: [SeguridadGuard] },
+      { path: 'editproductos/:id', component: FormProductoComponent, canActivate: [SeguridadGuard] },
+      { path: 'personas', component: FiltradoPersonaComponent, canActivate: [SeguridadGuard] },
+      { path: 'editpersonas', component: MantPersonaComponent, canActivate: [SeguridadGuard] },
+      { path: 'editpersonas/:id', component: FormPersonaComponent, canActivate: [SeguridadGuard] },
+      { path: 'usuarios', component: BuscarUsuarioComponent, canActivate: [SeguridadGuard] },
+      { path: 'edituser', component: MantUserComponent, canActivate: [SeguridadGuard] },
+      { path: 'edituser/:id', component: FormUserComponent, canActivate: [SeguridadGuard] },
+      { path: 'login', component: LoginComponent },
+      { path: 'errorlogin', component: ErrorLoginComponent, },
+      { path: 'permisologin', component: ErrorPermisoLoginComponent, },
     ])
   ],
-  providers: [ProductosService, CategoriaService, PersonaService, UsuarioService],
+  providers: [ProductosService, CategoriaService, PersonaService, UsuarioService, SeguridadGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

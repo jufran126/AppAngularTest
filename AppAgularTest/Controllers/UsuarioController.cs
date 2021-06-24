@@ -9,6 +9,9 @@ using AppAgularTest.Classes;
 using AppAgularTest.Models;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Http;
+
 namespace AppAgularTest.Controllers
 {
     [Route("api/Usuario")]
@@ -185,6 +188,117 @@ namespace AppAgularTest.Controllers
                 res = -1;
             }
             return res;
+        }
+        [HttpPost("login")]
+        public UsuarioDTO login([FromBody] UsuarioDTO usuario) 
+        {
+            UsuarioDTO res;
+            try
+            {
+                using (BDRestauranteContext db=new BDRestauranteContext())
+                {
+                    SHA256Managed sha = new SHA256Managed();
+                    byte[] contraNoCifrada = Encoding.Default.GetBytes(usuario.contraseña);
+                    byte[] contraCifrada = sha.ComputeHash(contraNoCifrada);
+                    string claveCifrada = BitConverter.ToString(contraCifrada).Replace("-", "");
+                    int cant = db.Usuario.Where(d => d.Nombreusuario.Equals(usuario.nombreUsuario) && d.Contra.Equals(claveCifrada)).Count();
+                    if (cant == 1)
+                    {
+                        Usuario usuarioDB = db.Usuario.Where(d => d.Nombreusuario.Equals(usuario.nombreUsuario) && d.Contra.Equals(claveCifrada)).FirstOrDefault();
+                        HttpContext.Session.SetString("usuario", usuarioDB.Iidusuario.ToString());
+                        HttpContext.Session.SetString("tipoUsuario", usuarioDB.Iidtipousuario.ToString());
+                        res = new UsuarioDTO { idUsuario = usuarioDB.Iidusuario, nombreUsuario = usuarioDB.Nombreusuario };
+                    }
+                    else
+                        res = new UsuarioDTO { idUsuario = 0, nombreUsuario = "" };
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            return res;
+        }
+        [HttpGet("getVariableSession")]
+        public SeguridadDTO getVariableSession()
+        {
+            SeguridadDTO seguridad;
+            try
+            {
+                string valorSession = HttpContext.Session.GetString("usuario");
+                if (valorSession == null)
+                    seguridad = new SeguridadDTO { valor = "" };
+                else
+                {
+                    seguridad = new SeguridadDTO { valor = valorSession };
+                    int idUser = int.Parse(HttpContext.Session.GetString("usuario"));
+                    int tipoUser = int.Parse(HttpContext.Session.GetString("tipoUsuario"));
+                    List<PaginaDTO> paginas;
+                    using (BDRestauranteContext db = new BDRestauranteContext())
+                    {
+                        paginas = (from usuario in db.Usuario
+                                   join tipoUsuario in db.TipoUsuario on usuario.Iidtipousuario equals tipoUsuario.Iidtipousuario
+                                   join paginasTipo in db.PaginaTipoUsuario on usuario.Iidtipousuario equals paginasTipo.Iidtipousuario
+                                   join pagina in db.Pagina on paginasTipo.Iidpagina equals pagina.Iidpagina
+                                   where usuario.Iidusuario == idUser && usuario.Iidtipousuario == tipoUser && paginasTipo.Bhabilitado == 1
+                                   select new PaginaDTO
+                                   {
+                                       idPagina = pagina.Iidpagina,
+                                       accion = pagina.Accion.Substring(1),
+                                       mensaje = pagina.Mensaje
+                                   }).ToList();
+                    }
+                    seguridad.lista = paginas;
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            return seguridad;
+        }
+        [HttpGet("cerrarSesion")]
+        public SeguridadDTO cerrarSesion()
+        {
+            SeguridadDTO seguridad;
+            try
+            {
+                HttpContext.Session.Remove("usuario");
+                HttpContext.Session.Remove("tipoUsuario");
+                seguridad = new SeguridadDTO { valor="ok" };
+            }
+            catch(Exception ex)
+            {
+                return new SeguridadDTO { valor = "" }; ;
+            }
+            return seguridad;
+        }
+        [HttpGet("listarPaginas")]
+        public List<PaginaDTO> listarPaginas()
+        {
+            List<PaginaDTO> paginas;
+            try 
+            {
+                int tipoUsuario = int.Parse(HttpContext.Session.GetString("tipoUsuario"));
+                using (BDRestauranteContext db=new BDRestauranteContext())
+                {
+                    paginas = (from paginasTipo in db.PaginaTipoUsuario
+                               join pagina in db.Pagina on paginasTipo.Iidpagina equals pagina.Iidpagina
+                               where paginasTipo.Bhabilitado == 1 && paginasTipo.Iidtipousuario == tipoUsuario
+                               select new PaginaDTO
+                               {
+                                   idPagina = pagina.Iidpagina,
+                                   accion = pagina.Accion,
+                                   mensaje = pagina.Mensaje,
+                                   bHabilitado = (int)pagina.Bhabilitado
+                               }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return paginas;
         }
     }
 }
