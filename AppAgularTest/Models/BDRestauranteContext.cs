@@ -118,6 +118,10 @@ namespace AppAgularTest.Models
 
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHABILITADO");
 
+                entity.Property(e => e.Bvisible)
+                    .HasColumnName("BVISIBLE")
+                    .HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.Mensaje)
                     .HasColumnName("MENSAJE")
                     .HasMaxLength(100)
@@ -194,6 +198,10 @@ namespace AppAgularTest.Models
                 entity.Property(e => e.Iidproducto).HasColumnName("IIDPRODUCTO");
 
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHABILITADO");
+
+                entity.Property(e => e.Foto)
+                    .HasColumnName("foto")
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Iidcategoria).HasColumnName("IIDCATEGORIA");
 

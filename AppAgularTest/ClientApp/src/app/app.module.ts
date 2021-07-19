@@ -38,6 +38,13 @@ import { ErrorPermisoLoginComponent } from './components/error-permiso-login/err
 
 //guards
 import { SeguridadGuard } from './guards/seguridad.guard';
+import { MantTipoUsuarioComponent } from './components/mant-tipo-usuario/mant-tipo-usuario.component';
+import { FormTipoUsuarioComponent } from './components/form-tipo-usuario/form-tipo-usuario.component';
+import { TablaTipoUsuarioComponent } from './components/tabla-tipo-usuario/tabla-tipo-usuario.component';
+import { TablaPaginaComponent } from './components/tabla-pagina/tabla-pagina.component';
+import { MantPaginaComponent } from './components/mant-pagina/mant-pagina.component';
+import { FormPaginaComponent } from './components/form-pagina/form-pagina.component';
+import { NoEncontroInfoComponent } from './components/no-encontro-info/no-encontro-info.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +72,14 @@ import { SeguridadGuard } from './guards/seguridad.guard';
     FormUserComponent,
     LoginComponent,
     ErrorLoginComponent,
-    ErrorPermisoLoginComponent
+    ErrorPermisoLoginComponent,
+    MantTipoUsuarioComponent,
+    FormTipoUsuarioComponent,
+    TablaTipoUsuarioComponent,
+    TablaPaginaComponent,
+    MantPaginaComponent,
+    FormPaginaComponent,
+    NoEncontroInfoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -90,6 +104,13 @@ import { SeguridadGuard } from './guards/seguridad.guard';
       { path: 'login', component: LoginComponent },
       { path: 'errorlogin', component: ErrorLoginComponent, },
       { path: 'permisologin', component: ErrorPermisoLoginComponent, },
+      { path: 'mant-tipoUsuario', component: MantTipoUsuarioComponent, canActivate: [SeguridadGuard] },
+      { path: 'edittipoUsuario/:id', component: FormTipoUsuarioComponent, canActivate: [SeguridadGuard] },
+      { path: 'tiposUsuarios', component: TablaTipoUsuarioComponent, canActivate: [SeguridadGuard] },
+      { path: 'mant-pagina', component: MantPaginaComponent, canActivate: [SeguridadGuard]},
+      { path: 'editPagina/:id', component: FormPaginaComponent, canActivate: [SeguridadGuard] },
+      { path: 'Paginas', component: TablaPaginaComponent, canActivate: [SeguridadGuard]},
+      { path: 'noInfo', component: NoEncontroInfoComponent, },
     ])
   ],
   providers: [ProductosService, CategoriaService, PersonaService, UsuarioService, SeguridadGuard],

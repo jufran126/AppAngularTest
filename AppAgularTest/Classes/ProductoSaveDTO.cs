@@ -13,7 +13,7 @@ namespace AppAgularTest.Classes
         public string categoria { get; set; }
         public string marca { get; set; }
         public int stock { get; set; }
-        //public string nombreCategoria { get; set; }
+        public string foto { get; set; }
         //public string nombreMarca { get; set; }
     }
 }

@@ -93,7 +93,8 @@ namespace AppAgularTest.Controllers
                            join marca in db.Marca
                            on producto.Iidmarca equals marca.Iidmarca
                            where producto.Bhabilitado == 1 && producto.Iidproducto == id
-                           select new ProductoSaveDTO {
+                           select new ProductoSaveDTO
+                           {
                                idProducto = producto.Iidproducto,
                                nombre = producto.Nombre,
                                precio = (decimal)producto.Precio,
@@ -101,7 +102,8 @@ namespace AppAgularTest.Controllers
                                categoria = Convert.ToString(categoria.Iidcategoria),
                                //nombreMarca = marca.Nombre,
                                marca = Convert.ToString(marca.Iidmarca),
-                               stock = (int)producto.Stock
+                               stock = (int)producto.Stock,
+                               foto = producto.Foto
                            }).First();
             }
             return persona;
@@ -123,7 +125,8 @@ namespace AppAgularTest.Controllers
                             Stock = producto.stock,
                             Iidcategoria = Convert.ToInt32(producto.categoria),
                             Iidmarca = Convert.ToInt32(producto.marca),
-                            Bhabilitado = 1
+                            Bhabilitado = 1,
+                            Foto = producto.foto
                         };
                         db.Producto.Add(producto1);
                         db.SaveChanges();
@@ -138,6 +141,7 @@ namespace AppAgularTest.Controllers
                         producto1.Iidcategoria = Convert.ToInt32(producto.categoria);
                         producto1.Iidmarca = Convert.ToInt32(producto.marca);
                         producto1.Bhabilitado = 1;
+                        producto1.Foto = producto.foto;
                         db.SaveChanges();
                         resp = 1;
                     }

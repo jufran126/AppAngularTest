@@ -65,4 +65,31 @@ export class UsuarioService {
   public listarPaginas() {
     return this.http.get(this.baseUrl + "api/Usuario/listarPaginas");
   }
+  public listarTiposUsuarios() {
+    return this.http.get(this.baseUrl + "api/TipoUsuario/listarTiposUsuarios");
+  }
+  public listarPaginasTipoUsuario() {
+    return this.http.get(this.baseUrl + "api/TipoUsuario/listarPaginasTipoUsuario");
+  }
+  public recuperarTipoUsuario(id) {
+    return this.http.get(this.baseUrl + "api/TipoUsuario/recuperarTipoUsuario/" + id);
+  }
+  public guardarTipoUsuario(datos) {
+    return this.http.post(this.baseUrl + "api/TipoUsuario/guardarTipoUsuario", datos);
+  }
+  public eliminarTipoUsuario(id) {
+    return this.http.get(this.baseUrl + "api/TipoUsuario/eliminarTipoUsuario/" + id);
+  }
+  public listarPaginasBD() {
+    return this.http.get(this.baseUrl + "api/Pagina/listarPaginasBD");
+  }
+  public recuperarPagina(id) {
+    return this.http.get(this.baseUrl + "api/Pagina/recuperarPagina/" + id);
+  }
+  public guardarPagina(datos) {
+    return this.http.post(this.baseUrl + "api/Pagina/guardarPagina", datos);
+  }
+  public eliminarPagina(id) {
+    return this.http.get(this.baseUrl + "api/Pagina/eliminarPagina/" + id);
+  }
 }

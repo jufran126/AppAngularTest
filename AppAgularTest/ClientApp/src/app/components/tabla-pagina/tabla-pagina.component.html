@@ -1,0 +1,20 @@
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th *ngFor="let cabecera of cabeceras">{{cabecera}}</th>
+      <th *ngIf="isEdit">Operaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pagina of paginas">
+      <td>{{pagina.idPagina}}</td>
+      <td>{{pagina.mensaje}}</td>
+      <td>{{pagina.accion}}</td>
+      <td *ngIf="isEdit">
+        <i [routerLink]="['/editPagina',pagina.idPagina]" class="fa fa-edit btn btn-primary"></i>
+        &nbsp;
+        <i class="fa fa-trash btn btn-danger" (click)="eliminarUser(pagina.idPagina)"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>

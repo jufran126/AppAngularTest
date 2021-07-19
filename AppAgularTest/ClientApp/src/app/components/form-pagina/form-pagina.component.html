@@ -1,0 +1,43 @@
+<h1 *ngIf="titulo">{{titulo}}</h1>
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="pagina" (ngSubmit)="guardarDatos()">
+      <div class="form-group">
+        <label>Id Pagina</label>
+        <input type="text" class="form-control" formControlName="idPagina" readonly />
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <input type="text" class="form-control" formControlName="mensaje" />
+        <div *ngIf="pagina.controls['mensaje'].errors?.required" style="color:red">
+          El mensaje de la pagina es obligatorio
+        </div>
+        <div *ngIf="pagina.controls['mensaje'].errors?.maxLength" style="color:red">
+          Supero el maximo de caracteres
+        </div>
+      </div> 
+      <div class="form-group">
+        <label>Acción</label>
+        <input type="text" class="form-control" formControlName="accion" />
+        <div *ngIf="pagina.controls['accion'].errors?.required" style="color:red">
+          La acción de la pagina es obligatorio
+        </div>
+        <div *ngIf="pagina.controls['accion'].errors?.maxLength" style="color:red">
+          Supero el maximo de caracteres
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="radio" formControlName="bVisible" name="bVisible" value="1"/>
+        <label>Visible</label>
+        <input type="radio" formControlName="bVisible" name="bVisible" value="0" />
+        <label>No Visible</label>
+      </div>
+      <div>
+        <br />
+        <input [disabled]="!pagina.valid" type="submit" value="Guardar" class="btn btn-primary" />
+        &nbsp;
+        <button class="btn btn-danger" [routerLink]="['/mant-pagina']">Regresar</button>
+      </div>
+    </form>
+  </div>
+</div>

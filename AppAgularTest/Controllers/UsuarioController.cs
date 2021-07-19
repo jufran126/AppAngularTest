@@ -284,7 +284,7 @@ namespace AppAgularTest.Controllers
                 {
                     paginas = (from paginasTipo in db.PaginaTipoUsuario
                                join pagina in db.Pagina on paginasTipo.Iidpagina equals pagina.Iidpagina
-                               where paginasTipo.Bhabilitado == 1 && paginasTipo.Iidtipousuario == tipoUsuario
+                               where paginasTipo.Bhabilitado == 1 && paginasTipo.Iidtipousuario == tipoUsuario && pagina.Bvisible==1
                                select new PaginaDTO
                                {
                                    idPagina = pagina.Iidpagina,

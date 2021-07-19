@@ -12,5 +12,6 @@ namespace AppAgularTest.Classes
         public decimal precio { get; set; }
         public int stock { get; set; }
         public string nombreCategoria { get; set; }
+        public string foto { get; set; }
     }
 }

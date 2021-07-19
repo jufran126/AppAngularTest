@@ -16,12 +16,14 @@ export class FormProductoComponent implements OnInit {
     categoria: new FormControl("", [Validators.required]),
     precio: new FormControl(0, [Validators.required]),
     marca: new FormControl("", [Validators.required]),
-    stock: new FormControl(0, [Validators.required, this.noPuntoDecimal])
+    stock: new FormControl(0, [Validators.required, this.noPuntoDecimal]),
+    foto: new FormControl("")
   });
   titulo = 'nada';
   parametro='';
   categorias: any;
   marcas: any;
+  foto: any;
   constructor(private categoriaService: CategoriaService, private productosService: ProductosService, private activatedRoute: ActivatedRoute, private router: Router) {
     this.activatedRoute.params.subscribe(par => {
       this.parametro = par["id"];
@@ -49,6 +51,10 @@ export class FormProductoComponent implements OnInit {
         this.producto.controls["precio"].setValue(data.precio);
         this.producto.controls["marca"].setValue(data.marca);
         this.producto.controls["stock"].setValue(data.stock);
+        if (data.foto)
+          this.foto = data.foto;
+        else
+          this.foto = "";
       });
     }
   }
@@ -72,5 +78,14 @@ export class FormProductoComponent implements OnInit {
         return { puntoDecimal: true };
       }
     return null;
+  }
+  changeFoto() {
+    var file = (<HTMLInputElement>document.getElementById("fupFoto")).files[0];
+    let fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      this.foto = fileReader.result;
+      this.producto.patchValue({ foto: fileReader.result });
+    }
+    fileReader.readAsDataURL(file);
   }
 }

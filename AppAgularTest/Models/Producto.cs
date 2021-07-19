@@ -17,6 +17,7 @@ namespace AppAgularTest.Models
         public int? Bhabilitado { get; set; }
         public int? Stock { get; set; }
         public int? Iidmarca { get; set; }
+        public string Foto { get; set; }
 
         public virtual Categoria IidcategoriaNavigation { get; set; }
         public virtual Marca IidmarcaNavigation { get; set; }
